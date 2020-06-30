@@ -22,7 +22,12 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      - run: docker push akshansv/testservice2
+      - run: docker push akshansv/testservice2@v2
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save firstcluster
+      - run: kubectl rollout restart deployment testservicetwo-depl
     
 
  
